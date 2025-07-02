@@ -1,13 +1,14 @@
 FROM eclipse-temurin:17-jdk
 
-# Descargar Payara Micro
-RUN curl -L -o payara-micro.jar https://search.maven.org/remotecontent?filepath=fish/payara/distributions/payara-micro/6.2024.2/payara-micro-6.2024.2.jar
+# Crear una carpeta para la aplicación
+WORKDIR /app
 
-# Copiar tu archivo WAR al contenedor
-COPY Impulse-Center.war /app/Impulse-Center.war
+# Copiar el WAR y Payara Micro
+COPY Impulse-Center.war /app/
+COPY payara-micro.jar /app/
 
-# Exponer el puerto
+# Exponer el puerto (Render usará 8080)
 EXPOSE 8080
 
-# Ejecutar la aplicación con Payara Micro
+# Usar una cantidad limitada de memoria para evitar "out of memory"
 CMD ["java", "-Xmx256m", "-jar", "payara-micro.jar", "--deploy", "/app/Impulse-Center.war", "--contextroot", "/"]
