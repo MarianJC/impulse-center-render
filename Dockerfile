@@ -11,17 +11,3 @@ EXPOSE 8080
 
 # Ejecutar la aplicación con Payara Micro
 CMD ["java", "-Xmx256m", "-jar", "payara-micro.jar", "--deploy", "/app/Impulse-Center.war", "--contextroot", "/"]
-📦 Pasos siguientes
-Guarda este archivo como Dockerfile (sin extensión) en la raíz del proyecto.
-
-Verifica que el archivo .war esté en la misma carpeta que el Dockerfile.
-
-En Render, crea una nueva Web Service:
-
-Idioma: Elige Docker.
-
-Root Directory: Deja vacío si el Dockerfile está en la raíz.
-
-Puerto: Render detecta automáticamente el puerto 8080.
-
-Espera a que se construya y despliegue. Tu app estará disponible en https://<tu-nombre>.onrender.com.
