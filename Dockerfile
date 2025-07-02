@@ -10,5 +10,5 @@ COPY payara-micro.jar /app/
 # Exponer el puerto (Render usará 8080)
 EXPOSE 8080
 
-# Usar una cantidad limitada de memoria para evitar "out of memory"
-CMD ["java", "-Xmx256m", "-jar", "payara-micro.jar", "--deploy", "/app/Impulse-Center.war", "--contextroot", "/"]
+# Comando para iniciar Payara Micro desplegando el WAR
+CMD ["java", "-jar", "/payara-micro.jar", "--deploy", "/Impulse-Center.war"]
