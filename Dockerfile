@@ -1,20 +1,27 @@
-FROM eclipse-temurin:17-jdk as build
+FROM eclipse-temurin:17-jdk
 
-# Descarga GlassFish 7
-RUN apt-get update && \
-    apt-get install -y curl unzip && \
-    curl -L -o glassfish.zip https://download.eclipse.org/ee4j/glassfish/glassfish-7.0.10.zip && \
-    unzip glassfish.zip -d /opt && \
-    rm glassfish.zip
+# Descargar Payara Micro
+RUN curl -L -o payara-micro.jar https://search.maven.org/remotecontent?filepath=fish/payara/distributions/payara-micro/6.2024.2/payara-micro-6.2024.2.jar
 
-ENV GLASSFISH_HOME /opt/glassfish7
-ENV PATH $GLASSFISH_HOME/bin:$PATH
+# Copiar tu archivo WAR al contenedor
+COPY Impulse-Center.war /app/Impulse-Center.war
 
-# Copiar el WAR a autodeploy
-COPY Impulse-Center.war $GLASSFISH_HOME/glassfish/domains/domain1/autodeploy/
-
-# Exponer el puerto 8080
+# Exponer el puerto
 EXPOSE 8080
 
-# Comando para iniciar GlassFish
-CMD ["asadmin", "start-domain", "-v"]
+# Ejecutar la aplicación con Payara Micro
+CMD ["java", "-Xmx256m", "-jar", "payara-micro.jar", "--deploy", "/app/Impulse-Center.war", "--contextroot", "/"]
+📦 Pasos siguientes
+Guarda este archivo como Dockerfile (sin extensión) en la raíz del proyecto.
+
+Verifica que el archivo .war esté en la misma carpeta que el Dockerfile.
+
+En Render, crea una nueva Web Service:
+
+Idioma: Elige Docker.
+
+Root Directory: Deja vacío si el Dockerfile está en la raíz.
+
+Puerto: Render detecta automáticamente el puerto 8080.
+
+Espera a que se construya y despliegue. Tu app estará disponible en https://<tu-nombre>.onrender.com.
